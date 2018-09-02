@@ -12,6 +12,9 @@ module.exports = function(defaults) {
     svg: {
       paths: ['public/images/icons'],
     },
+    codemirror: {
+      modes: ['javascript'],
+    },
     funnel: {
       enabled: isProd,
       exclude: [

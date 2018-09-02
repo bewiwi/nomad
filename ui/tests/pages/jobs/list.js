@@ -16,7 +16,10 @@ export default create({
 
   search: fillable('[data-test-jobs-search] input'),
 
+  runJob: clickable('[data-test-run-job]'),
+
   jobs: collection('[data-test-job-row]', {
+    id: attribute('data-test-job-row'),
     name: text('[data-test-job-name]'),
     link: attribute('href', '[data-test-job-name] a'),
     status: text('[data-test-job-status]'),

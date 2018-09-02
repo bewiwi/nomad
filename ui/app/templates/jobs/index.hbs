@@ -2,11 +2,16 @@
   {{#if isForbidden}}
     {{partial "partials/forbidden-message"}}
   {{else}}
-    {{#if filteredJobs.length}}
-      <div class="content">
-        <div>{{search-box data-test-jobs-search searchTerm=(mut searchTerm) placeholder="Search jobs..."}}</div>
+    <div class="columns">
+      {{#if filteredJobs.length}}
+        <div class="column">
+          {{search-box data-test-jobs-search searchTerm=(mut searchTerm) placeholder="Search jobs..."}}
+        </div>
+      {{/if}}
+      <div class="column is-centered">
+        {{#link-to "jobs.run" data-test-run-job class="button is-primary is-pulled-right"}}Run Job{{/link-to}}
       </div>
-    {{/if}}
+    </div>
     {{#list-pagination
       source=sortedJobs
       size=pageSize
@@ -25,7 +30,7 @@
           <th class="is-3">Summary</th>
         {{/t.head}}
         {{#t.body key="model.id" as |row|}}
-          {{job-row data-test-job-row job=row.model onClick=(action "gotoJob" row.model)}}
+          {{job-row data-test-job-row=row.model.plainId job=row.model onClick=(action "gotoJob" row.model)}}
         {{/t.body}}
       {{/list-table}}
       <div class="table-foot">
