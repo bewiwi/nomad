@@ -48,12 +48,8 @@ service Driver {
 
     // DestroyTask removes the task from the driver's internal state and cleans
     // up any additional resources created by the driver. It cannot be called
-    // on a running task.
+    // on a running task, unless force is set to true.
     rpc DestroyTask(DestroyTaskRequest)  returns (DestroyTaskResponse) {}
-
-    // ListTasks returns a list of summary information of all the tasks the
-    // driver is tracking.
-    rpc ListTasks(ListTasksRequest) returns (ListTasksResponse) {}
 
     // InspectTask returns detailed information for the given task
     rpc InspectTask(InspectTaskRequest) returns (InspectTaskResponse) {}
@@ -149,17 +145,17 @@ message StartTaskResponse {
         FATAL = 2;
     }
 
-    // Result is set depending on the type of error that occurred while starting
+    // Result is set depending on the type of error that occured while starting
     // a task:
     //
-    //   * SUCCESS: No error occurred, handle is set
-    //   * RETRY: An error occurred, but is recoverable and the RPC should be retried
-    //   * FATAL: A fatal error occurred and is not likely to succeed if retried
+    //   * SUCCESS: No error occured, handle is set
+    //   * RETRY: An error occured, but is recoverable and the RPC should be retried
+    //   * FATAL: A fatal error occured and is not likely to succeed if retried
     //
     // If Result is not successful, the DriverErrorMsg will be set.
     Result result = 1;
 
-    // DriverErrorMsg is set if an error occurred
+    // DriverErrorMsg is set if an error occured
     string driver_error_msg = 2;
 
     // Handle is opaque to the client, but must be stored in order to recover
@@ -181,7 +177,7 @@ message WaitTaskResponse {
 
     // Result is the exit status of the task
     ExitResult result = 1;
-    // Err is set if any driver error occurred while waiting for the task
+    // Err is set if any driver error occured while waiting for the task
     string err = 2;
 }
 
@@ -205,17 +201,12 @@ message DestroyTaskRequest {
 
     // TaskId is the ID of the target task
     string task_id = 1;
+
+    // Force destroys the task even if it is still in a running state
+    bool force = 2;
 }
 
 message DestroyTaskResponse {}
-
-message ListTasksRequest {}
-
-message ListTasksResponse {
-
-    // Tasks includes a list of summary information for each task
-    repeated TaskStatus tasks = 1;
-}
 
 message InspectTaskRequest {
 
@@ -561,7 +552,7 @@ message DriverTaskEvent {
     // TaskId is the id of the task for the event
     string task_id = 1;
 
-    // Timestamp when the event occurred
+    // Timestamp when the event occured
     google.protobuf.Timestamp timestamp = 2;
 
     // Message is the body of the event
