@@ -1770,6 +1770,7 @@ func (d *DockerDriver) Open(ctx *ExecContext, handleID string) (DriverHandle, er
 	for _, container := range containers {
 		if container.ID == pid.ContainerID {
 			found = true
+			break
 		}
 	}
 	if !found {
